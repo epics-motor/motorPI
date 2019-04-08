@@ -21,12 +21,13 @@ pi_DBD += base.dbd
 # Include dbd files from all support applications:
 #ifdef ASYN
 pi_DBD += asyn.dbd
+pi_DBD += drvAsynSerialPort.dbd
 #endif
 pi_DBD += motorSupport.dbd
-pi_DBD += devPi.dbd
+pi_DBD += devPIMotor.dbd
 
 # Add all the support libraries needed by this IOC
-pi_LIBS += pi
+pi_LIBS += PI
 pi_LIBS += motor
 #ifdef ASYN
 pi_LIBS += asyn

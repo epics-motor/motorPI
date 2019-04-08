@@ -11,11 +11,20 @@ cd "${TOP}"
 dbLoadDatabase "dbd/pi.dbd"
 pi_registerRecordDeviceDriver pdbbase
 
-## Load record instances
-#dbLoadRecords("db/xxx.db","user=kpetersn")
-
 cd "${TOP}/iocBoot/${IOC}"
+
+## motorUtil (allstop & alldone)
+dbLoadRecords("$(MOTOR)/db/motorUtil.db", "P=pi:")
+
+##
+< PI_C844.cmd
+< PI_C848.cmd
+< PI_E662.cmd
+< PI_C862.cmd
+
 iocInit
 
-## Start any sequence programs
-#seq sncxxx,"user=kpetersn"
+## motorUtil (allstop & alldone)
+motorUtilInit("pi:")
+
+# Boot complete
