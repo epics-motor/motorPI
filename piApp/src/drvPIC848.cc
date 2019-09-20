@@ -75,7 +75,7 @@ static inline void Debug(int level, const char *format, ...) {
 
 /* --- Local data. --- */
 int PIC848_num_cards = 0;
-static char *PIC848_axis[4] = {"A", "B", "C", "D"};
+static const char *PIC848_axis[4] = {"A", "B", "C", "D"};
 static volatile int motionTO = 10;
 
 /* Local data required for every driver; see "motordrvComCode.h" */
@@ -84,7 +84,7 @@ static volatile int motionTO = 10;
 
 /*----------------functions-----------------*/
 static int recv_mess(int, char *, int);
-static RTN_STATUS send_mess(int, char const *, char *);
+static RTN_STATUS send_mess(int, const char *, const char *);
 static int set_status(int, int);
 static long report(int);
 static long init();
@@ -341,7 +341,7 @@ static int set_status(int card, int signal)
 	nodeptr->postmsgptr != 0)
     {
 	strcpy(buff, nodeptr->postmsgptr);
-	send_mess(card, buff, (char*) NULL);
+	send_mess(card, buff, NULL);
 	nodeptr->postmsgptr = NULL;
     }
 
@@ -355,7 +355,7 @@ exit:
 /* send a message to the PIC848 board		     */
 /* send_mess()			                     */
 /*****************************************************/
-static RTN_STATUS send_mess(int card, char const *com, char *name)
+static RTN_STATUS send_mess(int card, const char *com, const char *name)
 {
     char local_buff[MAX_MSG_SIZE];
     struct PIC848controller *cntrl;
@@ -548,7 +548,7 @@ static int motor_init()
 
 	    do
 	    {
-		send_mess(card_index, GET_IDENT, (char*) NULL);
+		send_mess(card_index, GET_IDENT, NULL);
 		status = recv_mess(card_index, buff, 1);
 		retry++;
 	    } while (status == 0 && retry < 3);

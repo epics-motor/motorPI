@@ -82,7 +82,7 @@ static inline void Debug(int level, const char *format, ...) {
 
 /* --- Local data. --- */
 int PIE516_num_cards = 0;
-static char *PIE516_axis[] = {"A", "B", "C"};
+static const char *PIE516_axis[] = {"A", "B", "C"};
 
 /* Local data required for every driver; see "motordrvComCode.h" */
 #include	"motordrvComCode.h"
@@ -90,7 +90,7 @@ static char *PIE516_axis[] = {"A", "B", "C"};
 
 /*----------------functions-----------------*/
 static int recv_mess(int, char *, int);
-static RTN_STATUS send_mess(int, char const *, char *);
+static RTN_STATUS send_mess(int, const char *, const char *);
 static int set_status(int, int);
 static long report(int);
 static long init();
@@ -243,14 +243,14 @@ static int set_status(int card, int signal)
     recv_mess(card, buff, FLUSH);
 
     readOK = false;   
-    send_mess(card, READ_ONLINE, (char*) NULL);
+    send_mess(card, READ_ONLINE, NULL);
     if (recv_mess(card, buff, 1) && sscanf(buff, "%d", &online_status))
       {
 	if (!online_status)
 	  {
 	    /* Assume Controller Reboot - Set ONLINE and Velocity Control ON */
-	    send_mess(card, SET_ONLINE, (char*) NULL);
-	    send_mess(card, SET_VELCTRL, (char*) NULL);
+	    send_mess(card, SET_ONLINE, NULL);
+	    send_mess(card, SET_VELCTRL, NULL);
 	  }
 
 	send_mess(card, READ_ONTARGET, PIE516_axis[signal]);
@@ -367,7 +367,7 @@ static int set_status(int card, int signal)
 	nodeptr->postmsgptr != 0)
     {
 	strcpy(buff, nodeptr->postmsgptr);
-	send_mess(card, buff, (char*) NULL);
+	send_mess(card, buff, NULL);
 	nodeptr->postmsgptr = NULL;
     }
 
@@ -381,7 +381,7 @@ exit:
 /* send a message to the PIE516 board		     */
 /* send_mess()			                     */
 /*****************************************************/
-static RTN_STATUS send_mess(int card, char const *com, char *name)
+static RTN_STATUS send_mess(int card, const char *com, const char *name)
 {
     char local_buff[MAX_MSG_SIZE];
     char *pbuff;
@@ -585,15 +585,15 @@ static int motor_init()
 	    {
 	      online = false;
 	      /* Set Controller to ONLINE mode */
-	      send_mess(card_index, SET_ONLINE, (char*) NULL);
-	      send_mess(card_index, READ_ONLINE, (char*) NULL);
+	      send_mess(card_index, SET_ONLINE, NULL);
+	      send_mess(card_index, READ_ONLINE, NULL);
 	      if ((status = recv_mess(card_index, buff, 1)))
 		online = (atoi(buff)==1) ? true : false;
 	      else
 		retry++;
 	    } while (online == false && retry < 3);
 
-	    send_mess(card_index, GET_IDENT, (char*) NULL);
+	    send_mess(card_index, GET_IDENT, NULL);
 	    status = recv_mess(card_index, buff, 1);
 	    
 	    /* Parse out E516 revision (2 decimal places) and convert to int */
@@ -626,7 +626,7 @@ static int motor_init()
 	    brdptr->total_axis = total_axis;
 
 	    /* Turn ON velocity control mode  - All axis */
-	    send_mess(card_index, SET_VELCTRL, (char*) NULL);
+	    send_mess(card_index, SET_VELCTRL, NULL);
 
 	    for (motor_index = 0; motor_index < total_axis; motor_index++)
 	    {

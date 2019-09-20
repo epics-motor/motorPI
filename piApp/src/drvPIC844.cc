@@ -86,14 +86,14 @@ static inline void Debug(int level, const char *format, ...) {
 
 /* --- Local data. --- */
 int PIC844_num_cards = 0;
-static char *PIC844_axis[4] = {"1", "2", "3", "4"};
+static const char *PIC844_axis[4] = {"1", "2", "3", "4"};
 
 /* Local data required for every driver; see "motordrvComCode.h" */
 #include	"motordrvComCode.h"
 
 /*----------------functions-----------------*/
 static int recv_mess(int, char *, int);
-static RTN_STATUS send_mess(int, char const *, char *);
+static RTN_STATUS send_mess(int, const char *, const char *);
 static int set_status(int, int);
 static long report(int);
 static long init();
@@ -264,7 +264,7 @@ static int set_status(int card, int signal)
     cntrl->status = NORMAL;
     status.Bits.CNTRL_COMM_ERR = 0;
 
-    send_mess(card, "MOT:COND?", (char*) NULL);
+    send_mess(card, "MOT:COND?", NULL);
     recv_mess(card, buff, 1);
 
     mstat.All = atoi(&buff[0]);
@@ -295,7 +295,7 @@ static int set_status(int card, int signal)
      * Skip to substring for this motor, convert to double
      */
 
-    send_mess(card, "CURR:TPOS?", (char*) NULL);
+    send_mess(card, "CURR:TPOS?", NULL);
     recv_mess(card, buff, 1);
 
     motorData = atof(buff);
@@ -364,7 +364,7 @@ static int set_status(int card, int signal)
     status.Bits.EA_SLIP_STALL = 0;
     status.Bits.EA_HOME	      = 0;
 
-    send_mess(card, "AXIS:POS?", (char*) NULL);
+    send_mess(card, "AXIS:POS?", NULL);
     recv_mess(card, buff, 1);
     motorData = atof(buff);
     motor_info->encoder_position = (epicsInt32) motorData;
@@ -387,7 +387,7 @@ static int set_status(int card, int signal)
 	nodeptr->postmsgptr != 0)
     {
 	strcpy(buff, nodeptr->postmsgptr);
-	send_mess(card, buff, (char*) NULL);
+	send_mess(card, buff, NULL);
 	nodeptr->postmsgptr = NULL;
     }
 
@@ -401,7 +401,7 @@ exit:
 /* send a message to the PIC844 board		     */
 /* send_mess()			                     */
 /*****************************************************/
-static RTN_STATUS send_mess(int card, char const *com, char *name)
+static RTN_STATUS send_mess(int card, const char *com, const char *name)
 {
     char local_buff[MAX_MSG_SIZE];
     struct PIC844controller *cntrl;
@@ -596,7 +596,7 @@ static int motor_init()
 
 	    do
 	    {
-		send_mess(card_index, GET_IDENT, (char*) NULL);
+		send_mess(card_index, GET_IDENT, NULL);
 		status = recv_mess(card_index, buff, 1);
                 retry++;
 	    } while (status == 0 && retry < 3);
