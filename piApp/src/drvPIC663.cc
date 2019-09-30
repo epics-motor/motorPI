@@ -58,7 +58,7 @@ int PIC663_num_cards = 0;
 
 /*----------------functions-----------------*/
 static int recv_mess(int, char *, int);
-static RTN_STATUS send_mess(int, char const *, char *);
+static RTN_STATUS send_mess(int, const char *, const char *);
 static int set_status(int, int);
 static long report(int);
 static long init();
@@ -214,7 +214,7 @@ static int set_status(int card, int signal)
     if (cntrl->status != NORMAL)
 	charcnt = recv_mess(card, buff, FLUSH);
 
-    send_mess(card, "TS", (char*) NULL);		/*  Tell Status */
+    send_mess(card, "TS", NULL);		/*  Tell Status */
     charcnt = recv_mess(card, buff, 1);
     if (charcnt > 9)
 	convert_cnt = sscanf(buff, "S:%2hx %2hx %2hx\n", 
@@ -255,7 +255,7 @@ static int set_status(int card, int signal)
     minusLS = mstat2.Bits.lo_limit ? 0 : 1;
 
    /* Parse motor position */
-    send_mess(card, "TP", (char*) NULL);  /*  Tell Position */
+    send_mess(card, "TP", NULL);  /*  Tell Position */
     recv_mess(card, buff, 1);
     motorData = NINT(atof(&buff[2]));
      
@@ -309,7 +309,7 @@ static int set_status(int card, int signal)
 	nodeptr->postmsgptr != 0)
     {
 	strcpy(buff, nodeptr->postmsgptr);
-	send_mess(card, buff, (char*) NULL);
+	send_mess(card, buff, NULL);
 	nodeptr->postmsgptr = NULL;
     }
 
@@ -323,7 +323,7 @@ exit:
 /* send a message to the PIC663 board		     */
 /* send_mess()			                     */
 /*****************************************************/
-static RTN_STATUS send_mess(int card, char const *com, char *name)
+static RTN_STATUS send_mess(int card, const char *com, const char *name)
 {
     char local_buff[MAX_MSG_SIZE];
     struct PIC663controller *cntrl;
@@ -521,7 +521,7 @@ static int motor_init()
 	    do
 	    {
                 sprintf(buff,"\001%1XVE", cntrl->asyn_address);
-                send_mess(card_index, buff, (char*) NULL);
+                send_mess(card_index, buff, NULL);
 		status = recv_mess(card_index, buff, 1);
 		retry++;
 	    } while (status == 0 && retry < 3);

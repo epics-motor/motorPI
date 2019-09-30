@@ -63,7 +63,7 @@ volatile int PIC630_current[9];  /* current settings per axis */
 
 /*----------------functions-----------------*/
 static int recv_mess(int, char *, int);
-static RTN_STATUS send_mess(int, char const *, char *);
+static RTN_STATUS send_mess(int, char const *, const char *);
 static void start_status(int);
 static int set_status(int, int);
 static long report(int);
@@ -192,7 +192,7 @@ static int set_status(int card, int signal)
     signal++;
     /* Request the status of this motor */
     sprintf(command, "%dTS", signal);
-    send_mess(card, command, 0);
+    send_mess(card, command, NULL);
     recv_mess(card, response, WAIT);
 
     /* The response string is of the form "nTS:N" where N is an int (0-255) 
@@ -214,7 +214,7 @@ static int set_status(int card, int signal)
     /* The response string is of the form "1TP:1000"                            */
 	
     sprintf(command, "%dTP", signal);
-    send_mess(card, command, 0);
+    send_mess(card, command, NULL);
     recv_mess(card, response, WAIT);
 	
     motorData = atoi(&response[4]);
@@ -287,7 +287,7 @@ static int set_status(int card, int signal)
 /* send a message to the PIC630 board                 */
 /* send_mess()                                       */
 /*****************************************************/
-static RTN_STATUS send_mess(int card, const char *com, char *name)
+static RTN_STATUS send_mess(int card, const char *com, const char *name)
 {
     char buff[BUFF_SIZE];
     char inp_buff[BUFF_SIZE];
@@ -512,7 +512,7 @@ static int motor_init()
                 do
                 {
                     sprintf(cmd, "%dTS", (motor_index + 1));
-                    send_mess(card_index, cmd, 0);
+                    send_mess(card_index, cmd, NULL);
                     status = recv_mess(card_index, buff, WAIT);
                     retry++;
                     /* Return value is length of response string */
@@ -538,11 +538,11 @@ static int motor_init()
                 sprintf(buff,"%dDC%d", (motor_index + 1),PIC630_current[motor_index]);
                 for (i=0; i<=8; i++)
                     Debug(1, "PIC630_current[%d] = %d\n",i,PIC630_current[i]);
-                send_mess(card_index, buff, 0);
+                send_mess(card_index, buff, NULL);
 
                 /* Stop motor */
                 sprintf(buff,"%dAB", (motor_index + 1));
-                send_mess(card_index, buff, 0);
+                send_mess(card_index, buff, NULL);
                 strcpy(brdptr->ident, "PIC630");
 
                 motor_info->status.All = 0;

@@ -74,7 +74,7 @@ static inline void Debug(int level, const char *format, ...) {
 
 /* --- Local data. --- */
 int PIE710_num_cards = 0;
-static char *PIE710_axis[] = {"1", "2", "3", "4", "5", "6"};
+static const char *PIE710_axis[] = {"1", "2", "3", "4", "5", "6"};
 
 /* Local data required for every driver; see "motordrvComCode.h" */
 #include	"motordrvComCode.h"
@@ -82,7 +82,7 @@ static char *PIE710_axis[] = {"1", "2", "3", "4", "5", "6"};
 
 /*----------------functions-----------------*/
 static int recv_mess(int, char *, int);
-static RTN_STATUS send_mess(int, char const *, char *);
+static RTN_STATUS send_mess(int, const char *, const char *);
 static int set_status(int, int);
 static long report(int);
 static long init();
@@ -351,7 +351,7 @@ static int set_status(int card, int signal)
 	nodeptr->postmsgptr != 0)
     {
 	strcpy(buff, nodeptr->postmsgptr);
-	send_mess(card, buff, (char*) NULL);
+	send_mess(card, buff, NULL);
 	nodeptr->postmsgptr = NULL;
     }
 
@@ -365,7 +365,7 @@ exit:
 /* send a message to the PIE710 board		     */
 /* send_mess()			                     */
 /*****************************************************/
-static RTN_STATUS send_mess(int card, char const *com, char *name)
+static RTN_STATUS send_mess(int card, const char *com, const char *name)
 {
     char local_buff[MAX_MSG_SIZE];
     struct PIE710controller *cntrl;
@@ -560,7 +560,7 @@ static int motor_init()
 
 	    do
 	    {
-		send_mess(card_index, GET_IDENT, (char*) NULL);
+		send_mess(card_index, GET_IDENT, NULL);
 		status = recv_mess(card_index, buff[0], 1);
 
 		/* Parse out E710 revision (3 decimal places) and convert to int */
