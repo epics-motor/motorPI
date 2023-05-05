@@ -1,5 +1,23 @@
 # motorPI Releases
 
+## __R1-1 (2023-05-05)__
+R1-1 is a release based on the master branch.
+
+### Changes since R1-0-1
+
+#### New features
+* Pull request [#5](https://github.com/epics-motor/motorPI/pull/5): Added an E-816 example configuration
+
+#### Modifications to existing features
+* None
+
+#### Bug fixes
+* None
+
+#### Continuous integration
+* Added ci-scripts (v3.0.1)
+* Switched from Travis CI to Github Actions
+
 ## __R1-0-1 (2020-05-12)__
 R1-0-1 is a release based on the master branch.  
 
