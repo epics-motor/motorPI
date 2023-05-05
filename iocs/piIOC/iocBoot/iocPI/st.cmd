@@ -21,6 +21,7 @@ dbLoadRecords("$(MOTOR)/db/motorUtil.db", "P=pi:")
 < PI_C848.cmd
 < PI_E662.cmd
 < PI_C862.cmd
+< PI_E816.cmd
 
 iocInit
 
