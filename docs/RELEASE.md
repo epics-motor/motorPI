@@ -1,5 +1,13 @@
 # motorPI Releases
 
+## __R1-1-1 (2023-05-15)__
+R1-1-1 is a release based on the master branch.
+
+### Changes since R1-1
+
+#### Bug fixes
+* Pull request [#7](https://github.com/epics-motor/motorPI/pull/7): Fix for 'make uninstall' removing iocsh files
+
 ## __R1-1 (2023-05-05)__
 R1-1 is a release based on the master branch.
 
