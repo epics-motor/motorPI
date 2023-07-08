@@ -223,7 +223,7 @@ static int set_status(int card, int signal)
 {
     struct PIC844controller *cntrl;
     struct mess_node *nodeptr;
-    register struct mess_info *motor_info;
+    struct mess_info *motor_info;
     /* Message parsing variables */
     char buff[BUFF_SIZE];
     C844_Cond_Reg mstat;
