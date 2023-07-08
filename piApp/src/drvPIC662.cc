@@ -215,7 +215,7 @@ static int set_status(int card, int signal)
 {
     struct PIC662controller *cntrl;
     struct mess_node *nodeptr;
-    register struct mess_info *motor_info;
+    struct mess_info *motor_info;
     /* Message parsing variables */
     char buff[BUFF_SIZE];
     E662_ESR_REG mstat;
