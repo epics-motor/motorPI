@@ -174,7 +174,7 @@ static int set_status(int card, int signal)
 {
     struct PIC630Controller *cntrl;
     struct mess_node *nodeptr;
-    register struct mess_info *motor_info;
+    struct mess_info *motor_info;
     char command[BUFF_SIZE];
     char response[BUFF_SIZE];
     char cStatus;
