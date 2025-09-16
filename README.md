@@ -2,6 +2,8 @@
 EPICS motor drivers for the following [Physik Instrumente](https://www.physikinstrumente.com) controllers:<br>
 C-630/662/663/844/848/862/863, E-516/517/710/816
 
+Note: New C-663 controllers use the GCS2 command set and must use [motorPIGCS2](https://github.com/epics-motor/motorPIGCS2) instead of this module.
+
 [![Build Status](https://github.com/epics-motor/motorPI/actions/workflows/ci-scripts-build.yml/badge.svg)](https://github.com/epics-motor/motorPI/actions/workflows/ci-scripts-build.yml)
 <!--[![Build Status](https://travis-ci.org/epics-motor/motorPI.png)](https://travis-ci.org/epics-motor/motorPI)-->
 
