@@ -1,5 +1,17 @@
 # motorPI Releases
 
+## __R1-1-2 (2026-01-22)__
+R1-1-2 is a release based on the master branch.
+
+### Changes since R1-1-1
+
+#### Bug fixes
+* Pull request [#9](https://github.com/epics-motor/motorPI/pull/9): [Jeremy Lorelli](https://github.com/JJL772) removed uses of deprecated `register` keyword
+* Pull request [#11](https://github.com/epics-motor/motorPI/pull/11): Added comment about new C-663 controllers requiring motorPIGCS2
+
+#### Continuous integration
+* Upgraded ci-scripts (v3.4.1)
+
 ## __R1-1-1 (2023-05-15)__
 R1-1-1 is a release based on the master branch.
 
